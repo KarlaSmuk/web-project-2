@@ -11,6 +11,23 @@
 <body>
     <h2 class="title">Sensitive data Exposure</h2>
     <div class="container">
+        <div>
+            <p class="description mb-2">I have an example of sign up.</p>
+            <p class="description mb-3">If sensitive data exposure is enabled, password will be saved as text, if it is
+                disabled password will be encrypted.</p>
+        </div>
+        <div class="sign-up-container">
+            <h2 class="title">Sign up</h2>
+            <form action="/sign-up" method="POST" id="form" class="ticket-form">
+                <div>
+                    <input type="checkbox" id="sde" name="sde" value="true">
+                    <label for="sde">Vulnerability included</label>
+                </div>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button id="submit" type="submit">Submit</button>
+            </form>
+        </div>
     </div>
 </body>
 
