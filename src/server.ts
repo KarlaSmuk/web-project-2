@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { AppDataSource } from './db';
+import { seedData } from './seed';
 
 const app = express();
 app.set("views", path.join(__dirname, "views"));
@@ -22,6 +23,11 @@ app.get('/sde', (req, res) => {
 
 AppDataSource.initialize()
     .then(async () => {
+
+        seedData().catch((error) => {
+            console.error('Error seeding data:', error);
+        });
+
         app.listen(PORT, () => {
             console.log(`Server is running on http://localhost:${PORT}`);
         });
