@@ -7,23 +7,24 @@ import { User } from './entities/User.entity';
 import bcrypt from "bcrypt";
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'views')));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT;
 
-//rendering views/html
+//rendering views
 app.get('/', (req, res) => {
-    res.redirect('home.html');
+    res.render('home');
 });
 
 app.get('/xss', (req, res) => {
-    res.redirect('xss.html');
+    res.render('xss');
 });
 
 app.get('/sde', (req, res) => {
-    res.redirect('sde.html');
+    res.render('sde');
 });
 
 //endpoint for creating user, showing Sensitive Data Exposure
@@ -40,9 +41,9 @@ app.post('/sign-up', async (req, res) => {
     const createdUser = await userRepository.save(user);
 
     if (createdUser) {
-        res.redirect('sde.html');
+        res.render('sde');
     } else {
-        res.status(500).json('Error occured')
+        res.render('sde');
     }
 
 });
