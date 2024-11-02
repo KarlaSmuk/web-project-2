@@ -11,7 +11,35 @@
 <body>
     <h2 class="title">XSS - Cross-site scripting</h2>
     <div class="container">
+        <div>
+            <p class="description mb-2">I have an example of login.</p>
+            <p class="description mb-3">If XSS is enabled, input won't be sanitized, otherwise it will and scripts
+                won't pass validation.</p>
+            <p class="description mb-3">To try XSS vulnerability try: email: <%= "<script>alert('XSS test')</script>" %>
+                    , password: testXSS</p>
+        </div>
+        <div class="log-in-container">
+            <h2 class="title">Login</h2>
+            <form action="/login" method="POST" id="form" class="form">
+                <div>
+                    <input type="checkbox" id="vulnerability" name="vulnerability" value="true">
+                    <label for="vulnerability">Vulnerability included</label>
+                </div>
+                <input type="text" id="email" name="email" placeholder="Email" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button id="submit" type="submit">Submit</button>
+            </form>
+            <% if (error) { %>
+                <p id="error" class="error">
+                    <%= error %>
+                </p>
+                <% } else if (user) { %>
+                    <p>Welcome, <%= user %> <%- user %>!</p>
+                    <% } %>
+
+        </div>
     </div>
+
 </body>
 
 </html>

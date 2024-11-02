@@ -15,6 +15,10 @@ export const seedData = async () => {
             email: 'user2@example.com',
             password: 'password2',
         },
+        {
+            email: "<script>alert('XSS test')</script>",
+            password: 'testXSS',
+        },
     ];
 
     for (const user of users) {

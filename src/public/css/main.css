@@ -29,11 +29,11 @@ a:hover {
   opacity: 80%;
 }
 
-.sign-up-container {
+.sign-up-container, .log-in-container {
   width: 300px;
 }
 
-.ticket-form {
+.form {
   display: grid;
   gap: 8px;
 
