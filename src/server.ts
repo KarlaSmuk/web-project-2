@@ -24,7 +24,7 @@ app.get('/xss', (req, res) => {
 });
 
 app.get('/sde', (req, res) => {
-    res.render('sde');
+    res.render('sde', { message: "", error: "" });
 });
 
 //endpoint for creating user, showing Sensitive Data Exposure
@@ -38,14 +38,13 @@ app.post('/sign-up', async (req, res) => {
         password: vulnerability ? password : await bcrypt.hash(password, 10)
     }
 
-    const createdUser = await userRepository.save(user);
+    try {
+        await userRepository.save(user);
 
-    if (createdUser) {
-        res.render('sde');
-    } else {
-        res.render('sde');
+        res.render('sde', { message: "User created", error: "" });
+    } catch (error) {
+        res.render('sde', { message: "", error: "User not created." });
     }
-
 });
 
 AppDataSource.initialize()

@@ -65,6 +65,14 @@ button[disabled] {
   color: #666666;
 }
 
+.error {
+  color: #aa0000;
+}
+
+.message {
+  color: #03c03c;
+}
+
 .description {
   line-height: 1.21rem;
   margin: 0;
