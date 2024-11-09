@@ -13,7 +13,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const PORT = process.env.PORT;
+const externalUrl = process.env.RENDER_EXTERNAL_URL;
+const PORT = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 //rendering views
 app.get('/', (req: Request, res: Response) => {
@@ -78,9 +79,16 @@ AppDataSource.initialize()
         seedData().catch((error) => {
             console.error('Error seeding data:', error);
         });
-
-        app.listen(PORT, () => {
-            console.log(`Server is running on http://localhost:${PORT}`);
-        });
+        const hostname = '0.0.0.0';
+        if (externalUrl) {
+            app.listen(PORT, hostname, () => {
+                console.log(`Server locally running at http://${hostname}:${PORT}/ and from
+                outside on ${externalUrl}`);
+            });
+        } else {
+            app.listen(PORT, () => {
+                console.log(`Server is running on http://localhost:${PORT}`);
+            });
+        }
     })
     .catch((error) => console.log(error));
