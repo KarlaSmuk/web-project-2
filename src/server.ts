@@ -5,7 +5,6 @@ import { seedData } from './seed';
 import bodyParser from 'body-parser';
 import { User } from './entities/User.entity';
 import bcrypt from "bcrypt";
-import { body, validationResult } from 'express-validator';
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -49,18 +48,29 @@ app.post('/sign-up', async (req: Request, res: Response) => {
     }
 });
 
+const sanitizeInput = (input: string) => {
+    // &    &amp;
+    // <    &lt;
+    // >    &gt;
+    // "    &quot;
+    // '    &#x27;
+    input = input
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;');
+
+    return input;
+};
+
 //endpoint for login, showing XSS
-app.post('/login', [
-    body('email').isEmail().withMessage('You must enter email.'),
-    body('password').isAlphanumeric().withMessage('Password must contain letters and numbers only')
-], async (req: Request, res: Response) => {
-    const { vulnerability, email, password } = req.body;
+app.post('/login', async (req: Request, res: Response) => {
+    let { vulnerability, email, password } = req.body;
 
     if (!vulnerability) {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.render('xss', { user: "", error: "Failed validation." })
-        }
+        email = sanitizeInput(email)
+        password = sanitizeInput(password)
     }
 
     const userRepository = AppDataSource.getRepository(User);
