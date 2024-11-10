@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && tsc",
-    "clean": "shx rm -rf dist",
+    "build": "tsc && npm run copy-files",
     "start": "node dist/server.js",
+    "copy-files": "shx cp -r src/views dist/views && shx cp -r src/public dist/public",
     "dev": "nodemon --exec ts-node ./src/server.ts",
     "typeorm": "npx tsc && ts-node ./node_modules/typeorm/cli.js -d src/db.ts",
     "migration:generate": "npm run typeorm -- migration:generate",
